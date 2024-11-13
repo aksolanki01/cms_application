@@ -1,0 +1,74 @@
+body {
+    background-color: #f8f9fa; /* Light background */
+    font-family: Arial, sans-serif; /* Font style */
+}
+
+header {
+    background-color: #343a40; /* Dark header */
+    padding: 10px 20px; /* Padding for the header */
+}
+
+header .navbar-brand {
+    color: #ffffff; /* White text for navbar brand */
+}
+
+header .navbar-nav .nav-link {
+    color: #ffffff; /* White text for navbar links */
+}
+
+header .navbar-nav .nav-link:hover {
+    color: #f8f9fa; /* Light text on hover */
+}
+
+.container {
+    margin-top: 20px; /* Margin for main content */
+}
+
+h2 {
+    color: #343a40; /* Dark color for headings */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Bootstrap primary button color */
+    border: none; /* Remove border */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Bootstrap danger button color */
+    border: none; /* Remove border */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+form {
+    background-color: #ffffff; /* White background for forms */
+    padding: 20px; /* Padding for forms */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+form .form-group {
+    margin-bottom: 15px; /* Spacing between form groups */
+}
+
+/* For the like button */
+#like_button {
+    margin-top: 10px; /* Space above like button */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px; /* Smaller padding for mobile */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Smaller heading on mobile */
+    }
+}

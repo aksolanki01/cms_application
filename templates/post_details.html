@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ post.title }}</h2>
+    <p><strong>Written by:</strong> {{ post.writer.name }}</p>
+    <p><strong>Category:</strong> {{ post.category.title }}</p>
+    <p><strong>Description:</strong> {{ post.description }}</p>
+    
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid" />
+    {% else %}
+        <p>No image available.</p>
+    {% endif %}
+    
+    <p><strong>Created:</strong> {{ post.created_at|date:"F j, Y" }}</p>
+    <p><strong>Likes:</strong> <span id="likes_count">{{ likes }}</span></p>
+    
+    {% if post.writer.user_id == request.session.user_id %}
+        <a href="{% url 'update_post' slug=post.slug %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'delete_post' slug=post.slug %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    
+    <button id="like_button" class="btn btn-secondary">{% if user in post.likes.all %}Unlike{% else %}Like{% endif %}</button>
+</div>
+
+<script>
+    document.getElementById('like_button').addEventListener('click', function() {
+        fetch("{% url 'like_post' slug=post.slug %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                document.getElementById('likes_count').innerText = data.likes_count;
+                document.getElementById('like_button').innerText = data.liked ? 'Unlike' : 'Like';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
+{% endblock %}
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ post.title }}</h2>
+    <p><strong>Written by:</strong> {{ post.writer.name }}</p>
+    <p><strong>Category:</strong> {{ post.category.title }}</p>
+    <p><strong>Description:</strong> {{ post.description }}</p>
+    <p><strong>Post Image:</strong> {{ post.image }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid" />
+    {% else %}
+        <p>No image available.</p>
+    {% endif %}
+    <p><strong>Created:</strong> {{ post.created_at|date:"F j, Y" }}</p>
+    <p><strong>Likes:</strong> <span id="likes_count">{{ likes }}</span></p>
+    {% if post.writer == request.user %}
+        <a href="{% url 'update_post' slug=post.slug %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'delete_post' slug=post.slug %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+
+    <button id="like_button" class="btn btn-secondary">{% if user in post.likes.all %}Unlike{% else %}Like{% endif %}</button>
+</div>
+
+<script>
+    document.getElementById('like_button').addEventListener('click', function() {
+        fetch("{% url 'like_post' slug=post.slug %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('likes_count').innerText = data.likes_count;
+            document.getElementById('like_button').innerText = data.liked ? 'Unlike' : 'Like';
+        });
+    });
+</script>
+{% endblock %} {% endcomment %}

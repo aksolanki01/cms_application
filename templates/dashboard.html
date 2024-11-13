@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<nav>
+    <a class="navbar-brand" href="{% url 'create_post' %}">Create Post</a>
+    <a class="navbar-brand" href="{% url 'user_details' %}">User Details</a>
+</nav>
+
+<div class="container mt-5">
+    <h2>Welcome to your Dashboard, {{ user.name }}</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Overview</h4>
+            <p><strong>Total Posts:</strong> {{ total_posts }}</p>
+            <p><strong>Total Likes on Your Posts:</strong> {{ total_likes_received }}</p>
+            <p><strong>Total Categories:</strong> {{ total_categories }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Your Recent Posts</h4>
+            <ul>
+                {% for post in recent_posts %}
+                    <li>{{ post.title }} - <a href="{% url 'post_details' slug=post.slug %}">View</a>
+                        {% if post.writer == user %}
+                            {% comment %} <a href="{% url 'update_post' slug=post.slug %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'delete_post' slug=post.slug %}" class="btn btn-sm btn-danger">Delete</a> {% endcomment %}
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>No posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>All Posts</h4>
+            <ul>
+                {% for post in all_posts %}
+                    <li>{{ post.title }} by {{ post.writer.name }} - 
+                        <a href="{% url 'post_details' slug=post.slug %}">View</a>
+                        {% if post.writer == user %}
+                            {% comment %} <a href="{% url 'update_post' slug=post.slug %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'delete_post' slug=post.slug %}" class="btn btn-sm btn-danger">Delete</a> {% endcomment %}
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>No posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Recent Likes on Posts</h4>
+            <ul>
+                {% for like in recent_likes %}
+                    <li>Post: {{ like.post.title }} - Liked by: {{ like.user.name }} 
+                        {% comment %} {% if like.user == user %}
+                            <a href="#" class="btn btn-sm btn-danger">Remove Like</a>
+                        {% endif %} {% endcomment %}
+                    </li>
+                {% empty %}
+                    <li>No likes yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<nav>
+    <a class="navbar-brand" href="{% url 'create_post' %}">Create Post</a>
+    <a class="navbar-brand" href="{% url 'user_details' %}">User Detalis</a>
+</nav>
+
+<div class="container mt-5">
+    <h2>Welcome to your Dashboard, {{ user.name }}</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Overview</h4>
+            <p><strong>Total Posts:</strong> {{ total_posts }}</p>
+            <p><strong>Total Likes on Your Posts:</strong> {{ total_likes_received }}</p>
+            <p><strong>Total Categories:</strong> {{ total_categories }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Your Recent Posts</h4>
+            <ul>
+                {% for post in recent_posts %}
+                    <li>{{ post.title }} - <a href="{% url 'post_details' slug=post.slug %}">View</a></li>
+                {% empty %}
+                    <li>No posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} {% endcomment %}
+

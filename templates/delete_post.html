@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% comment %} {% if post.writer == request.user %} {% endcomment %}
+<div class="container mt-5">
+    <h2>Are you sure you want to delete the post "{{ post.title }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div> 
+{% comment %} {% endif %}  {% endcomment %}
+
+{% comment %} {% if post.writer == request.user %}
+    <form action="{% url 'delete_post' slug=post.slug %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+{% endif %} {% endcomment %}
+
+
+{% endblock %}

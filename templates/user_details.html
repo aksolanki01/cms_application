@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ user.name }}'s Profile</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Profession:</strong> {{ user.profession }}</p>
+    <p><strong>About:</strong> {{ user.about }}</p>
+    {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="{{ user.name }}" class="img-thumbnail" width="150" height="150">
+    {% else %}
+        <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Image" class="img-thumbnail" width="150" height="150">
+    {% endif %}
+    <p><strong>Joined:</strong> {{ user.created_at|date:"F j, Y" }}</p>
+    <a href="{% url 'user_update' %}" class="btn btn-primary">Update Profile</a>
+    <a href="{% url 'user_delete' %}" class="btn btn-danger">Delete Profile</a>
+</div>
+{% endblock %}
