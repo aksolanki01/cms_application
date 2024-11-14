@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,14 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sl0^d!ciw-tj#o5fc%#ut!_vaw_x-d-vo3r^f#iszfp#_#cqms'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['.vercel.app']
-
+ALLOWED_HOSTS =  os.getenv('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,11 +87,11 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cms_application', 
-        'USER': 'postgres',  
-        'PASSWORD': '1234',  
-        'HOST': 'localhost',  
-        'PORT': '5432',  
+        'NAME': os.getenv('POSTGRES_DATABASE'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_DB_PORT'), 
     }
 }
 
@@ -139,6 +141,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory for collected static files
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage" #dependency whitenoise
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Media files (User-uploaded files)
